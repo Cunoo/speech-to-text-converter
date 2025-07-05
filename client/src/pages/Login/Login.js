@@ -32,11 +32,11 @@ const Login = () => {
     }
 
 return (
-<div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
+<div style={{ maxWidth: '400px', margin: '50px auto', paddingTop: '120px' }}>
     <h1>Login</h1>
     
     <form onSubmit={handleSubmit}>
-    <div style={{ marginBottom: '15px' }}>
+    <div style={{ marginBottom: '15px', paddingTop: '120px' }}>
         <label>Email:</label>
         <input
         type="email"
@@ -78,6 +78,7 @@ return (
         border: 'none',
         borderRadius: '4px',
         cursor: 'pointer'
+        
         }}
     >
         Login in

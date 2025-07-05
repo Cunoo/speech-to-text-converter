@@ -1,0 +1,28 @@
+.App {
+  padding-top: 100px; /* Adjust based on header height */
+}
+
+.App-header {
+  position: top;
+
+  left: 0;
+  height: 150px;
+  width: 100%;
+
+  background-color: #282c34;
+
+
+}
+.App-logo {
+  height: 15vmin;
+  pointer-events: none;
+}
+
+.App-header button {
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+  
+  cursor: pointer;
+  align-self: center; /* optional: ensures it aligns within the flexbox */
+}

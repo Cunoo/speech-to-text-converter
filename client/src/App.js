@@ -1,20 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
 
 function App() {
-  const navigate = useNavigate();
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <button onClick={() => navigate("/login")}>Login</button>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </header>
+    <div className="">
+      <Header />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        {/* Add your other pages here */}
+      </Routes>
     </div>
   );
 }
