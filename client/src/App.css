@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #2F3349 ;
+  color: white;
+  height: 100%;
+}
+
+.App {
+  background-color: #2F3349 ;
+  min-height: 100vh;
+  color: white;
+}

@@ -1,23 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.App {
-  padding-top: 100px; /* Adjust based on header height */
-}
-
+/* File: src/components/Header/Header.css */
 .App-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  background-color: #282c34;
-
-  display: flex;
-  flex-direction: row;         /* 👈 layout items in a row */
-  align-items: center;
-  z-index: 1000;
+  background-color: #5A6178;  /* Svetlejší odtieň hlavnej farby */
+  border-bottom: 1px solid #404659;  /* Jemná čiara v hlavnej farbe */
 }
 
 
@@ -34,4 +21,48 @@
   
   cursor: pointer;
   align-self: center; /* optional: ensures it aligns within the flexbox */
+}
+
+
+/* src/components/Header/Header.css */
+
+.App-header {
+  background-color: #5A6178;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 64px;
+}
+
+/* Ensure logo/icons are white for better contrast */
+.App-header svg {
+  color: white;
+}
+
+/* Custom button styles */
+.bg-blue-600 {
+  background-color: #3B82F6 !important;
+}
+
+.bg-blue-700 {
+  background-color: #2563EB !important;
+}
+
+.text-blue-600 {
+  color: #3B82F6 !important;
+}
+
+.border-blue-600 {
+  border-color: #3B82F6 !important;
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: #3B82F6 !important;
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: #2563EB !important;
 }
