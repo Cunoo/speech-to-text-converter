@@ -57,12 +57,12 @@ function Header() {
                 Login
                 </Link>
 
-              <a
-                className="hidden rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white sm:block"
-                href="#"
-              >
+                <Link
+                to="/register"
+                className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
+                >
                 Register
-              </a>
+                </Link>
             </div>
 
           </div>
