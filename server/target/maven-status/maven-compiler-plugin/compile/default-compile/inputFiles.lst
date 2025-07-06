@@ -1,6 +1,11 @@
 /Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/ContentManagerApplication.java
+/Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/config/JwtAuthenticationEntryPoint.java
+/Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/config/JwtRequestFilter.java
+/Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/config/JwtUtil.java
 /Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/config/SecurityConfig.java
+/Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/controller/AuthController.java
 /Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/controller/UserController.java
 /Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/entity/User.java
 /Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/repository/UserRepository.java
+/Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/service/UserDetailsServiceImpl.java
 /Users/matus/Documents/coding/web_projects/ContentManager/server/src/main/java/com/ContentManager/ContentManager/service/UserService.java
