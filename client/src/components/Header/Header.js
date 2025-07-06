@@ -1,15 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../logo.svg";
-import "./Header.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
+import "./Header.css";
+
 function Header() {
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <header className="App-header">
       <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-        <a className="block text-white" href="#">
+        <Link className="block text-white" to="/">
           <span className="sr-only">Home</span>
           <svg className="h-8" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -17,54 +24,98 @@ function Header() {
               fill="currentColor"
             />
           </svg>
-        </a>
+        </Link>
 
         <div className="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" className="hidden md:block">
             <ul className="flex items-center gap-6 text-sm">
               <li>
-                <a className="text-gray-300 transition hover:text-white" href="#"> About </a>
+                <Link className="text-gray-300 transition hover:text-white" to="/about">
+                  About
+                </Link>
               </li>
 
               <li>
-                <a className="text-gray-300 transition hover:text-white" href="#"> Careers </a>
+                <Link className="text-gray-300 transition hover:text-white" to="/careers">
+                  Careers
+                </Link>
               </li>
 
               <li>
-                <a className="text-gray-300 transition hover:text-white" href="#"> History </a>
+                <Link className="text-gray-300 transition hover:text-white" to="/history">
+                  History
+                </Link>
               </li>
 
               <li>
-                <a className="text-gray-300 transition hover:text-white" href="#"> Services </a>
+                <Link className="text-gray-300 transition hover:text-white" to="/services">
+                  Services
+                </Link>
               </li>
 
               <li>
-                <a className="text-gray-300 transition hover:text-white" href="#"> Projects </a>
+                <Link className="text-gray-300 transition hover:text-white" to="/projects">
+                  Projects
+                </Link>
               </li>
 
               <li>
-                <a className="text-gray-300 transition hover:text-white" href="#"> Blog </a>
+                <Link className="text-gray-300 transition hover:text-white" to="/blog">
+                  Blog
+                </Link>
               </li>
+
+              {/* Dashboard link - visible only for authenticated users */}
+              {isAuthenticated && (
+                <li>
+                  <Link className="text-gray-300 transition hover:text-white" to="/dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
 
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
-                <Link
-                to="/login"
-                className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
-                >
-                Login
-                </Link>
+              {isAuthenticated ? (
+                // User is logged in - show username and logout button
+                <>
+                  <span className="text-gray-300 px-3 py-2 text-sm">
+                    Welcome, {user?.user?.username || user?.username}
+                  </span>
+                  <Link
+                    to="/login"
+                    className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
+                  >
+                    Login
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block rounded-md border border-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-600 hover:text-white"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                // User is not logged in - show login and register buttons
+                <>
+                  <Link
+                    to="/login"
+                    className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
+                  >
+                    Login
+                  </Link>
 
-                <Link
-                to="/register"
-                className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
-                >
-                Register
-                </Link>
+                  <Link
+                    to="/register"
+                    className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
-
           </div>
         </div>
       </div>
