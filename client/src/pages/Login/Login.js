@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../../services/Api';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -11,13 +12,14 @@ const Login = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
-        // Clear error message when user starts typing
+        // Clear error message when typing
         if (error) setError('');
     };
 
@@ -34,9 +36,12 @@ const Login = () => {
 
             console.log('Login successful:', response);
             
+            // Update Auth context
+            login(response);
+            
             // Redirect to dashboard
-            navigate('/dashboard'); 
-
+            navigate('/dashboard');
+            
         } catch (error) {
             console.error('Login failed:', error);
             setError(error.message || 'Login failed');
