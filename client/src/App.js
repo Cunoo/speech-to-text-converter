@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from './contexts/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
 import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
