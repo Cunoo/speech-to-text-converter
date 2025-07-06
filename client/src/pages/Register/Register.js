@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { registerUser } from '../../services/Api';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -34,6 +34,8 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submit button clicked");
+
         if(!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
             setError('All fields are required');
             return;
@@ -52,9 +54,11 @@ const Register = () => {
         }
         console.log('Form submitted:', formData);
         try {
-            // Tu bude API call
-            // Po úspešnej registrácii presmeruj na login
-            // navigate('/login');
+            await registerUser({ username: formData.username, 
+                                    email: formData.email,
+                                    password: formData.password });
+            navigate('/login');
+            console.log('Registration successful');
         } catch (error) {
             console.error('Registration failed:', error);
         }
