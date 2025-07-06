@@ -84,12 +84,6 @@ function Header() {
                   <span className="text-gray-300 px-3 py-2 text-sm">
                     Welcome, {user?.user?.username || user?.username}
                   </span>
-                  <Link
-                    to="/login"
-                    className="block rounded-md border border-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-600 hover:text-white"
-                  >
-                    Login
-                  </Link>
                   <button
                     onClick={handleLogout}
                     className="block rounded-md border border-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-600 hover:text-white"

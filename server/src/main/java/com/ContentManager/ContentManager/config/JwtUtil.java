@@ -18,7 +18,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
     
-    @Value("${jwt.secret:mySecretKey}")
+    @Value("${jwt.secret:myVerySecretKeyThatIsAtLeast32CharactersLongForJWTSecurity2024!}")
     private String secret;
     
     @Value("${jwt.expiration:86400000}") // 24 hours
@@ -64,7 +64,7 @@ public class JwtUtil {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
     

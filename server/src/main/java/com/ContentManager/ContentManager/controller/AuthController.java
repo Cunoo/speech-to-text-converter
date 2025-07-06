@@ -34,25 +34,31 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            // find user by email or username
+            System.out.println("Login attempt for: " + loginRequest.getEmail());
+            
+            // Find user by email or username
             Optional<User> userOptional = userService.getUserByEmail(loginRequest.getEmail());
             if (userOptional.isEmpty()) {
                 userOptional = userService.getUserByUsername(loginRequest.getEmail());
             }
 
             if (userOptional.isEmpty()) {
+                System.out.println("User not found: " + loginRequest.getEmail());
                 return ResponseEntity.badRequest().body("Invalid credentials");
             }
 
             User user = userOptional.get();
+            System.out.println("User found: " + user.getUsername());
             
-            // authenticate user with password
+            // Verify password
             if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+                System.out.println("Invalid password for user: " + user.getUsername());
                 return ResponseEntity.badRequest().body("Invalid credentials");
             }
 
-            // generate JWT token
+            // Generate JWT token
             String token = jwtUtil.generateToken(user.getUsername());
+            System.out.println("Token generated for user: " + user.getUsername());
 
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
@@ -64,6 +70,8 @@ public class AuthController {
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
+            System.err.println("Login error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("Login failed: " + e.getMessage());
         }
     }
