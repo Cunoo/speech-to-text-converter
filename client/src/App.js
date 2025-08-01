@@ -6,6 +6,7 @@ import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Transcript from './pages/transcript/transcript';
 
 console.log("🔍 App.js loaded!");
 function App() {
@@ -22,6 +23,11 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
+          <Route path="/transcript" element={
+            <ProtectedRoute>
+              <Transcript />
+            </ProtectedRoute>
+  } />
         </Routes>
       </div>
     </AuthProvider>

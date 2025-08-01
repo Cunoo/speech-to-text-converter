@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ContentManager</groupId>
-	<artifactId>ContentManager</artifactId>
+	<artifactId>speech-to-text</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ContentManager</name>
 	<description>Demo project for Spring Boot</description>

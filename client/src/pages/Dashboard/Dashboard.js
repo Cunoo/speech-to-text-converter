@@ -1,9 +1,11 @@
 // src/pages/Dashboard/Dashboard.js
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -20,13 +22,15 @@ const Dashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
                         <h3 className="text-xl font-semibold text-white mb-2">
-                            User Management
+                            Transcript
                         </h3>
                         <p className="text-gray-300 mb-4">
-                            Manage your user accounts and profiles
+                            Speech to text transcription service
                         </p>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
-                            View Users
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+                            onClick={() => navigate('/transcript')}
+                        >
+                            Transcript
                         </button>
                     </div>
                     
