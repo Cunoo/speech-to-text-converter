@@ -16,39 +16,41 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Check if user is logged in on app load
         const token = getAuthToken();
-        if (token) {
+        const savedUserData = localStorage.getItem('userData');
+        
+        if (token && savedUserData) {
             try {
-                // Decode JWT token to extract user data
                 const payload = JSON.parse(atob(token.split('.')[1]));
-                
-                // Check token expiration time
                 const currentTime = Date.now() / 1000;
+                
                 if (payload.exp > currentTime) {
-                    setUser({
-                        username: payload.sub,
-                        token: token
-                    });
+                    const userData = JSON.parse(savedUserData);
+                    // Extract the nested user object
+                    setUser(userData.user); 
                 } else {
-                    // Token has expired, remove it
                     removeAuthToken();
+                    localStorage.removeItem('userData');
                 }
             } catch (error) {
                 console.error('Error parsing token:', error);
                 removeAuthToken();
+                localStorage.removeItem('userData');
             }
         }
         setLoading(false);
     }, []);
 
     const login = (userData) => {
-        setUser(userData);
+        setUser(userData.user);
+        // Store complete user data in localStorage
+        localStorage.setItem('userData', JSON.stringify(userData));
     };
 
     const logout = () => {
         setUser(null);
         removeAuthToken();
+        localStorage.removeItem('userData');  
     };
 
     const value = {

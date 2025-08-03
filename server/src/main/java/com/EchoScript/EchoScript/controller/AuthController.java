@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.EchoScript.EchoScript.config.JwtUtil;
 import com.EchoScript.EchoScript.entity.User;
 import com.EchoScript.EchoScript.service.UserService;
-
+import com.EchoScript.EchoScript.config.AppConstants;
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = AppConstants.FRONTEND_URL)
 public class AuthController {
 
     @Autowired

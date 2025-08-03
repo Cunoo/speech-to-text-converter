@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.EchoScript.EchoScript.entity.User;
 import com.EchoScript.EchoScript.service.UserService;
-
+import com.EchoScript.EchoScript.config.AppConstants;
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:3000") // for react app
+@CrossOrigin(origins = AppConstants.FRONTEND_URL) // for react app
 public class UserController {
 
     @Autowired
