@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
     const login = (userData) => {
         setUser(userData.user);
-        // Store complete user data in localStorage
+        // Store  user data in localStorage
         localStorage.setItem('userData', JSON.stringify(userData));
     };
 
