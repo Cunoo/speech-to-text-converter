@@ -75,14 +75,63 @@ const Transcript = () => {
             <div class="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 rounded-xl shadow-lg p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Video Processing Output</h3>
-                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                        Ready
+                    <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${
+                        result?.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                        result?.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                        result?.status === 'error' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
+                        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
+                    }`}>
+                        {result?.status || 'Ready'}
                     </span>
                 </div>
                 <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-h-[250px] max-h-[400px] overflow-y-auto">
                     <pre class="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-mono">
-                        Video output text will appear here
-                        <span class="text-gray-400">Waiting for video processing...</span>
+                        {/* Show different content based on state */}
+                        {loading && (
+                            <span class="text-blue-400">
+                                Processing your request...
+                                <br />
+                                Analyzing video: {videoURL}
+                            </span>
+                        )}
+                        
+                        {error && (
+                            <span class="text-red-400">
+                                Error: {error}
+                                <br />
+                                Please try again with a valid YouTube URL.
+                            </span>
+                        )}
+                        
+                        {result && !loading && (
+                            <div>
+                                <span class="text-green-400">✓ Request Status: {result.status}</span>
+                                <br />
+                                <span class="text-white">Message: {result.message}</span>
+                                <br />
+                                {result.videoId && (
+                                    <>
+                                        <span class="text-gray-400">Video ID: {result.videoId}</span>
+                                        <br />
+                                    </>
+                                )}
+                                <br />
+                                <span class="text-gray-400">
+                                    {result.status === 'pending' ? 
+                                        'Your video is being processed. You will be notified when transcription is complete.' :
+                                        'Video processing completed!'
+                                    }
+                                </span>
+                            </div>
+                        )}
+                        
+                        {!result && !loading && !error && (
+                            <span class="text-gray-400">
+                                Waiting for video processing...
+                                <br />
+                                Enter a YouTube URL above and click Submit.
+                            </span>
+                        )}
                     </pre>
                 </div>
             </div>
