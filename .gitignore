@@ -1,2 +1,16 @@
-##macosfiles
+
+
+# Java compiled files
+target/
+*.class
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# OS files
 .DS_Store
+Thumbs.db

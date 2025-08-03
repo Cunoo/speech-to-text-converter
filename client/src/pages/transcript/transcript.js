@@ -27,9 +27,11 @@ const Transcript = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        
         try {
             const response = await transcriptAPI.requestTranscript(user.id, videoURL);
             setResult(response);
+
         } catch (err) {
             setError(err.message);
         } finally {
