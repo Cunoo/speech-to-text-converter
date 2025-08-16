@@ -5,6 +5,7 @@ import tempfile
 import os
 import logging
 from typing import Tuple, Optional
+import uuid
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -25,16 +26,30 @@ class SpeechToTextModel:
         except Exception as e:
             logger.error(f"Error loading model: {e}")
             raise Exception(f"Failed to load model: {e}")
+        
+    def _create_user_temp_dir(self, user_id: int) -> str:
+        base_temo_dir = tempfile.gettempdir()
+        user_temp_dir = os.path.join(base_temo_dir, f"user_{user_id}_transcription")
+        
+        #Create directory if it doesnt exist
+        os.makedirs(user_temp_dir, exist_ok=True)
+        logger.info(f"Temporary directory created: {user_temp_dir}")
+        return user_temp_dir
     
-    def download_youtube_audio(self, youtube_url: str) -> Tuple[str, str]:
+    def download_youtube_audio(self, youtube_url: str, user_id: int, job_id: str = None) -> Tuple[str, str, int]:
         try:
             logger.info(f"Downloading audio from: {youtube_url}")
             
-            temp_dir = tempfile.gettempdir()
+            user_temp_dir = self._create_user_temp_dir(user_id)
+            
+            if not job_id:
+                job_id = str(uuid.uuid4())[:8]
+            
+            filename_template = f"user_{user_id}_job_{job_id}_%(title)s.%(ext)s"
             
             ydl_opts = {
                 'format': 'bestaudio/best',
-                'outtmpl': os.path.join(temp_dir, '%(title)s.%(ext)s'),
+                'outtmpl': os.path.join(user_temp_dir, filename_template),
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'wav',
@@ -50,14 +65,14 @@ class SpeechToTextModel:
                 
                 #Find the downloaded file
                 audio_file_path = None
-                for file in os.listdir(temp_dir):
-                    if file.endswith('.wav'):
-                        audio_file_path = os.path.join(temp_dir, file)
+                for file in os.listdir(user_temp_dir):
+                    if file.startswith(f"user_{user_id}_job_{job_id}") and file.endswith('.wav'):
+                        audio_file_path = os.path.join(user_temp_dir, file)
                         break
                 if not audio_file_path:
                     raise Exception("No audio file found after download")
                 
-                logger.info(f"Audio downloaded succesfully: {video_title}")
+                logger.info(f"Audio downloaded succesfully: {video_title} => {audio_file_path}")
                 return audio_file_path, video_title, video_duration
             
         except Exception as e:
@@ -104,11 +119,11 @@ class SpeechToTextModel:
         
         return sum(confidences) / len(confidences) if confidences else 0.0
     
-    def transcribe_youtube_video(self, youtube_url: str, language: Optional[str] = None) -> dict:
+    def transcribe_youtube_video(self, youtube_url: str, user_id: int, job_id: str = None, language: Optional[str] = None) -> dict:
         audio_path = None
         try:
             # Download audio
-            audio_path, video_title, duration = self.download_youtube_audio(youtube_url)
+            audio_path, video_title, duration = self.download_youtube_audio(youtube_url, user_id, job_id)
             
             # Transcribe audio
             transcription_result = self.transcribe_audio(audio_path, language)
@@ -118,7 +133,9 @@ class SpeechToTextModel:
                 'video_title': video_title,
                 'duration': duration,
                 'source_url': youtube_url,
-                'model_used': self.model_size
+                'model_used': self.model_size,
+                'user_id': user_id,
+                'job_id': job_id
             })
             
             return transcription_result
@@ -135,10 +152,11 @@ class SpeechToTextModel:
                     temp_dir = os.path.dirname(audio_path)
                     if os.path.exists(temp_dir) and not os.listdir(temp_dir):
                         os.rmdir(temp_dir)
+                        logger.info(f"Cleaned up empty directory: {temp_dir}")
                 except Exception as cleanup_error:
                     logger.warning(f"Error cleaning up temporary files: {cleanup_error}")
     
-    def transcribe_file(self, file_path: str, language: Optional[str] = None) -> dict:
+    def transcribe_file(self, file_path: str, user_id: int, language: Optional[str] = None) -> dict:
         try:
             if not os.path.exists(file_path):
                 raise Exception(f"Audio file not found: {file_path}")
@@ -149,14 +167,26 @@ class SpeechToTextModel:
             transcription_result.update({
                 'source_file': os.path.basename(file_path),
                 'file_size': os.path.getsize(file_path),
-                'model_used': self.model_size
+                'model_used': self.model_size,
+                'user_id': user_id,
             })
-            
+
             return transcription_result
             
         except Exception as e:
             logger.error(f"Error transcribing file: {str(e)}")
             raise
+    def cleanup_user_files(self, user_id: int) -> None:
+        try:
+            base_temp_dir = tempfile.gettempdir()
+            user_temp_dir = os.path.join(base_temp_dir, f"user_{user_id}_transcripts")
+
+            if os.path.exists(user_temp_dir):
+                import shutil
+                shutil.rmtree(user_temp_dir)
+                logger.info(f"Cleaned all temp files for user {user_id}")
+        except Exception as e:
+            logger.error(f"Error cleaning up user files: {str(e)}")
     
     def get_model_info(self) -> dict:
         return {

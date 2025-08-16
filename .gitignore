@@ -14,3 +14,7 @@ target/
 # OS files
 .DS_Store
 Thumbs.db
+
+#Python
+__pycache__
+ai/__pycache__
